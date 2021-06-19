@@ -1,10 +1,10 @@
 use std::env;
-use std::fs;
 use std::error::Error;
+use std::fs;
 
 /// Stores configuration information when the compiler is invoked
 #[derive(Debug)]
-pub struct Config { 
+pub struct Config {
     /// The C file to be compiled
     pub filename: String,
 }
@@ -22,7 +22,7 @@ pub enum Type {
 #[derive(Debug)]
 pub enum Token {
     /// Opening brace
-    OpenBrace,   
+    OpenBrace,
     /// Closing brace
     CloseBrace,
     /// Opening parenthesis
@@ -33,7 +33,7 @@ pub enum Token {
     Semicolon,
     /// A return keyword
     Return,
-    /// A type identifier 
+    /// A type identifier
     Type(Type),
     /// An identifier `[a-zA-Z]\w*`
     Identifier(&'static str),
