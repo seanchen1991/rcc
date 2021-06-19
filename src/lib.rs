@@ -1,5 +1,6 @@
 use std::env;
 use std::error::Error;
+use std::fmt;
 use std::fs;
 
 /// Stores configuration information when the compiler is invoked
@@ -16,6 +17,17 @@ pub enum Type {
     Int,
     /// The `char` type
     Char,
+}
+
+impl fmt::Display for Type {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            Type::Int => "int".to_string(),
+            Type::Char => "char".to_string(),
+        };
+
+        write!(f, "{}", s)
+    }
 }
 
 /// The token variants that the compiler supports
@@ -41,6 +53,24 @@ pub enum Token {
     Integer(i64),
 }
 
+impl fmt::Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            Token::OpenBrace => "{".to_string(),
+            Token::CloseBrace => "}".to_string(),
+            Token::OpenParen => "(".to_string(),
+            Token::CloseParen => ")".to_string(),
+            Token::Semicolon => ";".to_string(),
+            Token::Return => "return".to_string(),
+            Token::Type(ty) => ty.to_string(),
+            Token::Identifier(ident) => ident.to_string(),
+            Token::Integer(int) => int.to_string(),
+        };
+
+        write!(f, "{}", s)
+    }
+}
+
 impl Config {
     /// Populates a `Config` from the CLI arguments to the compiler
     pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
@@ -64,4 +94,11 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!("{}", tokens);
 
     Ok(())
+}
+
+/// Lexes the contents of a C file
+pub fn lex(contents: String) -> Result<Vec<Token>, Box<dyn Error>> {
+    let mut tokens = vec![];
+
+    Ok(tokens)
 }
