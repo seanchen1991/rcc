@@ -91,14 +91,22 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     let tokens = lex(contents)?;
 
-    println!("{}", tokens);
+    println!("{:?}", tokens);
 
     Ok(())
 }
 
 /// Lexes the contents of a C file
-pub fn lex(contents: String) -> Result<Vec<Token>, Box<dyn Error>> {
-    let mut tokens = vec![];
+pub fn lex(expr: String) -> Result<Vec<String>, Box<dyn Error>> {
+    let tokens = expr
+        .replace("(", " ( ")
+        .replace(")", " ) ")
+        .replace("{", " { ")
+        .replace("}", " } ")
+        .replace(";", " ; ")
+        .split_whitespace()
+        .map(|x| x.to_string())
+        .collect::<Vec<String>>();
 
     Ok(tokens)
 }
